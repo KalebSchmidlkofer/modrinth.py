@@ -6,10 +6,12 @@ An Unofficial modrinth api wrapper for python
 '''
 
 import requests
+from requests.exceptions import HTTPError
 import asyncio
 from loguru import logger
 import sys
-
+from urllib.parse import urlparse, urlsplit
+import os
 def debug_init(trace, debug):
     logger.remove()
     if debug:
@@ -26,7 +28,6 @@ debug_init(False, False)
 __version__ = '0.0.1'
 
 
-modID='made-in-abyss-ost'
 
 class Users:
   pass
@@ -41,9 +42,12 @@ class modrinthProjects:
       self.apiRoute=apiRoute
     
     async def _requestData(self):
-      r = requests.get(f'{self.apiRoute}{modID}')
-      return r.json()
-    
+      r = requests.get(f'{self.apiRoute}{self.modID}')
+      if r.status_code == 200:
+        return r.json()
+      else:
+        logger.error(f'Error: An error occured and no project was found! status Code:{r.status_code}')
+        raise HTTPError('Got a 404 or something similar when trying to access url')
     async def _parseData(self) -> None:
       data = await self._requestData()
       self.clientSide = data['client_side']
@@ -160,9 +164,13 @@ class modrinthProjects:
       return self.monetizationStatus
 
 
-    async def request(self):
+    async def request(self, modID:str):
+      """Make a request to modrinth api for all data revolving a mod
+
+      Args:
+          modID (str): mod id/url of the mod your looking at
+      """
+      self.modID = modID
       await self._parseData()
       
-projects=modrinthProjects.Data()
-asyncio.run(projects.request())
 

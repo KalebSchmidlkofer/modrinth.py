@@ -25,7 +25,8 @@ def debug_init(trace, debug):
 
 debug_init(False, False)
 
-__version__ = '1.0.2'
+__version__ = '2.0.0-alpha'
+headers = {'User-Agent': f'KalebSchmidlkofer/modrinth.py/{__version__} (kaleb@ashbyte.com)'}
 
 
 
@@ -36,13 +37,24 @@ class Users:
 
 statusEnum=["approved", "archived", "rejected", "draft", "unlisted", "processing", "withheld", "scheduled", "private", "unknown"]
 class modrinthProjects:
-  class Data:
+  def __init__(self, modid):
+    self.modid = modid
+    self.data = self._Data()
+    # self.utils = self._Utils()
+  
+  async def request_data(self):
+    await self.data.request(self.modid)
+    
+  
+  
+  
+  
+  class _Data:
     
     def __init__(self, apiRoute:str='https://api.modrinth.com/v2/project/'):
       self.apiRoute=apiRoute
     
     async def _requestData(self):
-      headers = {'User-Agent': f'KalebSchmidlkofer/modrinth.py/{__version__} (kaleb@ashbyte.com)'}
       parsed_url=urlparse(self.modID)
       parsed_url=os.path.basename(parsed_url.path)
       r = requests.get(f'{self.apiRoute}{parsed_url}', headers=headers)
@@ -51,6 +63,7 @@ class modrinthProjects:
       else:
         logger.error(f'Error: An error occured and no project was found! status Code:{r.status_code}')
         raise HTTPError('Got a 404 or something similar when trying to access url')
+      
     async def _parseData(self) -> None:
       data = await self._requestData()
       self.clientSide = data['client_side']
@@ -166,7 +179,6 @@ class modrinthProjects:
     async def get_monetization_status(self):
       return self.monetizationStatus
 
-
     async def request(self, modID:str):
       """Make a request to modrinth api for all data revolving a mod
 
@@ -175,5 +187,28 @@ class modrinthProjects:
       """
       self.modID = modID
       await self._parseData()
+      
+
+  # class _Utils:
+    # def __init__(self):
+      # 
+    # async def version(self, loader:list[str], mc_version:list[str], featured:bool=False):
+      # params = {'loaders': loader, 'game_versions': mc_version}
+# 
+      # r=requests.get(url=f'{self.apiRoute}{self.modid}/version', headers=headers)
+      # print(r.json())
+
+
+
+
+class modrinthVersion:
+  class versions:
+    def __init__(self, modid):
+      self.project = modrinthProjects(modid)
+
+
+
+    
+
 
 

@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "modrinth-py"
-version = "1.0.1"
+version = "1.0.2"
 description = ""
 authors = ["KalebSchmidlkofer <kaleb@ashbyte.com>"]
 readme = "README.md"

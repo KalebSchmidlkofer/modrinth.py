@@ -45,7 +45,6 @@ class modrinthProjects:
       headers = {'User-Agent': f'KalebSchmidlkofer/modrinth.py/{__version__} (kaleb@ashbyte.com)'}
       parsed_url=urlparse(self.modID)
       parsed_url=os.path.basename(parsed_url.path)
-      print(parsed_url)
       r = requests.get(f'{self.apiRoute}{parsed_url}', headers=headers)
       if r.status_code == 200:
         return r.json()

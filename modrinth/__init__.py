@@ -25,7 +25,7 @@ def debug_init(trace, debug):
 
 debug_init(False, False)
 
-__version__ = '1.0.0'
+__version__ = '1.0.1'
 
 
 
@@ -43,7 +43,10 @@ class modrinthProjects:
     
     async def _requestData(self):
       headers = {'User-Agent': f'KalebSchmidlkofer/modrinth.py/{__version__} (kaleb@ashbyte.com)'}
-      r = requests.get(f'{self.apiRoute}{self.modID}', headers=headers)
+      parsed_url=urlparse(self.modID)
+      parsed_url=os.path.basename(parsed_url.path)
+      print(parsed_url)
+      r = requests.get(f'{self.apiRoute}{parsed_url}', headers=headers)
       if r.status_code == 200:
         return r.json()
       else:

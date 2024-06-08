@@ -109,74 +109,119 @@ class modrinthProjects:
       '''Returns "required", "optional" or "unsupported'''
       return self.serverSide
     async def get_game_versions(self) -> list:
+      '''Returns A list of all game versions supported by this Mod'''
       return self.gameVersions
     async def get_id(self) -> str:
+      '''Returns the mod's id'''
       return self.id
     async def get_slug(self) -> str:
+      '''Returnes the slug of the mod eg; "NNAgCjsB"'''
       return self.slug
     async def get_project_type(self) -> str:
+      '''Get what type of project this is eg: "mod" "modpack" "plugin" "shader"'''
       return self.projectType
     async def get_team(self) -> str:
+      '''Returns id of What team Made published this mod eg: "hLPrl6Gq"'''
       return self.team
     async def get_organization(self) -> str:
+      '''Returns ID of What Organization Made published this mod eg: ""d8z9840y'''
       return self.organization
     async def get_title(self) -> str:
+      '''returns title of project'''
       return self.title
     async def get_description(self) -> str:
+      '''Returns Description of mod'''
       return self.description
     async def get_body(self) -> str:
+      ''' Returns long form description of the project'''
       return self.body
     async def get_published(self) -> str:
+      '''Returns Date mod was published'''
       return self.published
     async def get_updated(self) -> str:
+      '''Returns Date Last updated'''
       return self.updated
     async def get_approved(self) -> str:
+      '''Returns Date Approved'''
       return self.approved
     async def get_queued(self):
+      '''Returns Date Project Status was Sumbitted for review'''
       return self.queued
     async def get_status(self):
+      '''Returns Current status of project'''
       if self.status in statusEnum:
         return self.status
       else:
         logger.warning(f'Error: self.status is not correct, it returned {self.status} instead of an allowed value')
         return self.status
     async def get_requested_status(self):
+      '''Gets current Requested Status of mod'''
       return self.requestedStatus
     async def get_moderator_message(self):
+      '''Returns Str not quite sure what this is
+         DEPRECATED'''
       return self.moderatorMessage
     async def get_license(self):
+      '''Returns License of Project
+         id: str
+         name: str
+         url: str'''
       return self.license
     async def get_downloads(self):
+      '''Returns Current ammount of Downloads worldwide'''
       return self.downloads
     async def get_followers(self):
+      '''Returns Current ammount of Followers WorldWide'''
       return self.followers
     async def get_categories(self) -> list:
+      '''Returns list of all main categories Project is in'''
       return self.categories
     async def get_additional_categories(self) -> list:
+      '''Returns list of all secondary categories Project is in'''
       return self.additionalCategories
     async def get_loaders(self) -> list:
+      '''Returns a list of what mod loaders the mod is compatible with'''
       return self.loaders
     async def get_versions(self) -> list:
+      '''Returns a list of all version id's of the project'''
       return self.versions
     async def get_icon_url(self):
+      '''Returns url for icon'''
       return self.icon_url
     async def get_issues_url(self):
+      '''Returns the url for you to report issues/bugs at'''
       return self.issues_url
     async def get_source_url(self):
+      '''Returns Link to source code if available'''
       return self.source_url
     async def get_wiki_url(self):
+      '''Returns link to Wiki if available'''
       return self.wiki_url
     async def get_discord_url(self):
+      '''Returns invite link to discord server if available'''
       return self.discord_url
-    async def get_donation_urls(self):
+    async def get_donation_urls(self) -> list:
+      '''Returns list of donation links for project'''
       return self.donation_urls
-    async def get_gallery(self):
+    async def get_gallery(self) -> list:
+      '''Returns a list of gallery images and metadata
+[[url:str,
+featured:bool,
+title:str,
+description:str,
+created:str,
+ordering:int
+]]
+      '''
       return self.gallery
     async def get_color(self):
+      '''Returns The RGB color of the project, automatically generated from the project icon'''
       return self.color
     async def get_threadId(self):
+      '''Returns The ID of the moderation thread associated with this project'''
       return self.threadId
     async def get_monetization_status(self):
+      '''Returns monetization status eg: "monetized" "demonetized" "force-demonetized"'''
       return self.monetizationStatus
 
     async def request(self, modID:str):
